@@ -1,5 +1,8 @@
-package org.example;
+class IdGenerator {
+    private int countOfTasks = 0;
 
-public interface IdGenerator {
-    int createDefaultId();
+    public int createDefaultId() {
+
+        return countOfTasks++;
+    }
 }

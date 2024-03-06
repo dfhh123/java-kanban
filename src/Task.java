@@ -1,41 +1,21 @@
-package org.example;
-
 import java.util.Objects;
 
-public abstract class Task implements Objective {
-    private String description;
-    private TackCondition tackCondition;
+public abstract class Task {
     private int id;
+    private String description;
+    private Statuses status;
+
+    public void setStatus(Statuses Statuses) {
+        this.status = Statuses;
+    }
 
     @Override
     public String toString() {
         return "Task{" +
                 "description='" + description + '\'' +
-                ", tackCondition=" + tackCondition +
+                ", tackCondition=" + status +
                 ", id=" + id +
                 '}';
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId(){
-        return id;
-    }
-
-    public TackCondition getTackCondition() {
-        return tackCondition;
-    }
-
-    public void setTackCondition(TackCondition tackCondition) {
-        this.tackCondition = tackCondition;
-    }
-
-    public Task(String description, TackCondition tackCondition, int id) {
-        this.description = description;
-        this.tackCondition = tackCondition;
-        this.id = id;
     }
 
     @Override
@@ -51,8 +31,21 @@ public abstract class Task implements Objective {
         return Objects.hash(description);
     }
 
-    public void updateCondition(Task task) {
-        this.description = task.description;
-        this.tackCondition = task.tackCondition;
+    public void setId(int id) {
+        this.id = id;
     }
+
+    public int getId(){
+        return id;
+    }
+
+    public Statuses getStatus() {
+        return status;
+    }
+
+    public Task(String description, Statuses status) {
+        this.description = description;
+        this.status = status;
+    }
+
 }
