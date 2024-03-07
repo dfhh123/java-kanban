@@ -1,5 +1,5 @@
 public class SubTask extends Task {
-    int linkedEpicId;
+    private int linkedEpicId;
 
     public void setLinkedEpicId(int linkedEpicId) {
         this.linkedEpicId = linkedEpicId;

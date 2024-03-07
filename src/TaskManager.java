@@ -6,7 +6,7 @@ public class TaskManager {
     private Map<Integer, Epic> epics = new HashMap<>();
     private Map<Integer, SubTask> subTusks = new HashMap<>();
 
-    IdGenerator idGenerator = new IdGenerator();
+    private IdGenerator idGenerator = new IdGenerator();
 
 
     private void updateEpicStatus(int currentEpicId) {
@@ -138,7 +138,7 @@ public class TaskManager {
 
     public void removeSubTaskById(int id) {
         if (subTusks.containsKey(id)) {
-            int epicId = subTusks.get(id).linkedEpicId;
+            int epicId = subTusks.get(id).getLinkedEpicId();
             subTusks.remove(id);
             updateEpicStatus(epicId);
         } else {
