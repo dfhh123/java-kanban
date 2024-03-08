@@ -1,17 +1,38 @@
+package Models;
+
 import java.util.Objects;
 
-public abstract class Task {
+public  class Task {
     private int id;
     private String description;
     private Statuses status;
+
+    public Task(String description, Statuses status) {
+        this.description = description;
+        this.status = status;
+    }
+
+    public Task(int id, String description, Statuses status) {
+        this.id = id;
+        this.description = description;
+        this.status = status;
+    }
 
     public void setStatus(Statuses Statuses) {
         this.status = Statuses;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
-        return "Task{" +
+        return "Models.Task{" +
                 "description='" + description + '\'' +
                 ", tackCondition=" + status +
                 ", id=" + id +
@@ -42,10 +63,4 @@ public abstract class Task {
     public Statuses getStatus() {
         return status;
     }
-
-    public Task(String description, Statuses status) {
-        this.description = description;
-        this.status = status;
-    }
-
 }

@@ -1,3 +1,8 @@
+package TaskManager;
+
+import Models.*;
+import Utils.IdGenerator;
+
 import java.util.*;
 
 public class TaskManager {
@@ -27,9 +32,9 @@ public class TaskManager {
                 SubTask currentSubTask = subTusks.get(currentId);
 
                 switch (currentSubTask.getStatus()) {
-                    case NEW -> newCount++;
-                    case IN_PROGRESS -> InProgressCount++;
-                    case DONE -> doneCount++;
+                    case Statuses.NEW -> newCount++;
+                    case Statuses.IN_PROGRESS -> InProgressCount++;
+                    case Statuses.DONE -> doneCount++;
                 }
 
                 if (doneCount == idList.size()) {
@@ -41,6 +46,15 @@ public class TaskManager {
         }
     }
 
+    @Override
+    public String toString() {
+        return "TaskManager{" +
+                "tasks=" + tasks +
+                ", epics=" + epics +
+                ", subTusks=" + subTusks +
+                ", idGenerator=" + idGenerator +
+                '}';
+    }
 
     //методы для тасков
     public Task getTaskDyId(int id) {
@@ -82,6 +96,10 @@ public class TaskManager {
     //методы для эпиков
     public void removeAllEpics() {
         epics.clear();
+        for (Map.Entry<Integer, SubTask> entry: subTusks.entrySet()) {
+            SubTask currentSuTusk = entry.getValue();
+            currentSuTusk.setLinkedEpicId(-1);
+        }
     }
 
     public Epic createEpic(Epic newEpic) {
@@ -127,6 +145,11 @@ public class TaskManager {
 
     public void removeAllSubTasks() {
         subTusks.clear();
+        for (Map.Entry<Integer, Epic> entry: epics.entrySet()) {
+            Epic currentEpic = entry.getValue();
+            currentEpic.setSubTusksIdes(List.of());
+            updateEpicStatus(currentEpic.getId());
+        }
     }
 
     public SubTask createSubTask(SubTask newSubTask) {
@@ -148,6 +171,7 @@ public class TaskManager {
 
     public SubTask updateSubTask(SubTask updatedSubTask) {
         subTusks.put(updatedSubTask.getId(), updatedSubTask);
+        updateEpicStatus(updatedSubTask.getLinkedEpicId());
         return updatedSubTask;
     }
 

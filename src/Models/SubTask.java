@@ -1,3 +1,5 @@
+package Models;
+
 public class SubTask extends Task {
     private int linkedEpicId;
 
