@@ -2,8 +2,8 @@ package Models;
 
 import java.util.Objects;
 
-public  class Task {
-    private int id;
+public  class Task implements Cloneable{
+    private Integer id;
     private String description;
     private Statuses status;
 
@@ -44,23 +44,33 @@ public  class Task {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         Task task = (Task) object;
-        return Objects.equals(description, task.description);
+        return id == task.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(description);
+        return Objects.hash(id);
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getId(){
+    public Integer getId(){
         return id;
     }
 
     public Statuses getStatus() {
         return status;
+    }
+
+    @Override
+    public Task clone() {
+        try {
+            Task clone = (Task) super.clone();
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

@@ -21,38 +21,6 @@ public class InMemoryTaskManager implements TaskManager {
         this.historyManager = historyManager;
     }
 
-    private void updateEpicStatus(int currentEpicId) {
-        Epic currentEpic = epics.get(currentEpicId);
-
-        int newCount = 0;
-        int doneCount = 0;
-        int InProgressCount = 0;
-
-        if (currentEpic.getSubTusksIdes().isEmpty()) {
-            currentEpic.setStatus(Statuses.NEW);
-            return;
-        }
-
-        List<Integer> idList = currentEpic.getSubTusksIdes();
-        for (Integer currentId : idList) {
-            if (subTusks.containsKey(currentId)) {
-                SubTask currentSubTask = subTusks.get(currentId);
-
-                switch (currentSubTask.getStatus()) {
-                    case Statuses.NEW -> newCount++;
-                    case Statuses.IN_PROGRESS -> InProgressCount++;
-                    case Statuses.DONE -> doneCount++;
-                }
-
-                if (doneCount == idList.size()) {
-                    currentEpic.setStatus(Statuses.DONE);
-                } else {
-                    currentEpic.setStatus(Statuses.IN_PROGRESS);
-                }
-            }
-        }
-    }
-
     @Override
     public String toString() {
         return "TaskManager{" +
@@ -86,9 +54,21 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task createTask(Task newTask) {
-        newTask.setId(idGenerator.createId());
-        tasks.put(newTask.getId(), newTask);
-        return newTask;
+        if (newTask.getId() == null) {
+            newTask.setId(generateCorrectId ());
+            tasks.put(newTask.getId(), newTask);
+            return newTask;
+        } else {
+            if (subTusks.containsKey(newTask.getId()) || epics.containsKey(newTask.getId())) {
+                throw new IllegalArgumentException();
+            }
+            if (!tasks.containsKey(newTask.getId())) {
+                tasks.put(newTask.getId(), newTask);
+                return newTask;
+            } else {
+                throw new IllegalArgumentException();
+            }
+        }
     }
 
     @Override
@@ -124,9 +104,21 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Epic createEpic(Epic newEpic) {
-        newEpic.setId(idGenerator.createId());
-        epics.put(newEpic.getId(), newEpic);
-        return newEpic;
+        if (newEpic.getId() == null) {
+            newEpic.setId(generateCorrectId());
+            epics.put(newEpic.getId(), newEpic);
+            return newEpic;
+        } else {
+            if (subTusks.containsKey(newEpic.getId()) || tasks.containsKey(newEpic.getId())) {
+                throw new IllegalArgumentException();
+            }
+            if (!epics.containsKey(newEpic.getId())) {
+                tasks.put(newEpic.getId(), newEpic);
+                return newEpic;
+            } else {
+                throw new IllegalArgumentException();
+            }
+        }
     }
 
     @Override
@@ -140,6 +132,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Epic updateEpic(Epic updatedEpic) {
+        if (subTusks.containsKey(updatedEpic.getId()) || tasks.containsKey(updatedEpic.getId())) {
+            throw new IllegalArgumentException();
+        }
         epics.put(updatedEpic.getId(), updatedEpic);
         return updatedEpic;
     }
@@ -183,10 +178,22 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public SubTask createSubTask(SubTask newSubTask) {
-        newSubTask.setId(idGenerator.createId());
-        subTusks.put(newSubTask.getId(), newSubTask);
-        updateEpicStatus(newSubTask.getLinkedEpicId());
-        return newSubTask;
+        if (newSubTask.getId() == null) {
+            newSubTask.setId(generateCorrectId());
+            subTusks.put(newSubTask.getId(), newSubTask);
+            updateEpicStatus(newSubTask.getLinkedEpicId());
+            return newSubTask;
+        } else {
+            if (tasks.containsKey(newSubTask.getId()) || epics.containsKey(newSubTask.getId())) {
+                throw new IllegalArgumentException();
+            }
+            if (!subTusks.containsKey(newSubTask.getId())) {
+                subTusks.put(newSubTask.getId(), newSubTask);
+                return newSubTask;
+            } else {
+                throw new IllegalArgumentException();
+            }
+        }
     }
 
     @Override
@@ -202,6 +209,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public SubTask updateSubTask(SubTask updatedSubTask) {
+        if (epics.containsKey(updatedSubTask.getId()) || tasks.containsKey(updatedSubTask.getId())) {
+            throw new IllegalArgumentException();
+        }
         subTusks.put(updatedSubTask.getId(), updatedSubTask);
         updateEpicStatus(updatedSubTask.getLinkedEpicId());
         return updatedSubTask;
@@ -227,5 +237,46 @@ public class InMemoryTaskManager implements TaskManager {
         } else {
             throw new NoSuchElementException();
         }
+    }
+
+    private void updateEpicStatus(int currentEpicId) {
+        Epic currentEpic = epics.get(currentEpicId);
+
+        int newCount = 0;
+        int doneCount = 0;
+        int InProgressCount = 0;
+
+        if (currentEpic.getSubTusksIdes().isEmpty()) {
+            currentEpic.setStatus(Statuses.NEW);
+            return;
+        }
+
+        List<Integer> idList = currentEpic.getSubTusksIdes();
+        for (Integer currentId : idList) {
+            if (subTusks.containsKey(currentId)) {
+                SubTask currentSubTask = subTusks.get(currentId);
+
+                switch (currentSubTask.getStatus()) {
+                    case Statuses.NEW -> newCount++;
+                    case Statuses.IN_PROGRESS -> InProgressCount++;
+                    case Statuses.DONE -> doneCount++;
+                }
+
+                if (doneCount == idList.size()) {
+                    currentEpic.setStatus(Statuses.DONE);
+                } else {
+                    currentEpic.setStatus(Statuses.IN_PROGRESS);
+                }
+            }
+        }
+    }
+
+    private int generateCorrectId () {
+        int correctId = idGenerator.createId();
+
+        while (epics.containsKey(correctId) || tasks.containsKey(correctId) || subTusks.containsKey(correctId)) {
+            correctId = idGenerator.createId();
+        }
+        return correctId;
     }
 }

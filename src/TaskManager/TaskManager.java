@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface TaskManager {
     List<Task> getHistory();
+
     //методы для тасков
     Task getTaskDyId(int id);
 

@@ -3,15 +3,15 @@ package Models;
 import java.util.*;
 
 public class Epic extends Task {
+    private List<Integer> subTusksIds;
+
     public Epic(String description, Statuses status, List<Integer> subTusksIds) {
         super(description, status);
         this.subTusksIds = subTusksIds;
     }
 
-    private List <Integer> subTusksIds;
-
-    public List<Integer> getSubTusksIds() {
-        return subTusksIds;
+    public Epic(int id, String description, Statuses status) {
+        super(id, description, status);
     }
 
     public List<Integer> getSubTusksIdes() {
@@ -19,10 +19,20 @@ public class Epic extends Task {
     }
 
     public void setSubTusksIdes(List<Integer> subTusksIdes) {
+        if (subTusksIdes.contains(getId())) {
+            throw new IllegalArgumentException();
+        }
         this.subTusksIds = subTusksIdes;
     }
 
     public Epic(String description, Statuses Statuses) {
         super(description, Statuses);
+    }
+
+    @Override
+    public Task clone() {
+        Epic clone = (Epic) super.clone();
+        clone.subTusksIds = this.subTusksIds;
+        return clone;
     }
 }
