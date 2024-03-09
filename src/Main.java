@@ -1,58 +1,53 @@
 import Models.*;
-import TaskManager.TaskManager;
+import TaskManager.*;
 
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        TaskManager taskManager1 = new TaskManager();
-        testTask(taskManager1);
+        TaskManager inMemoryTaskManager1 = Managers.getDefaultTaskManager();
+        testTask(inMemoryTaskManager1);
 
-        TaskManager taskManager2 = new TaskManager();
-        TestSubTuskAndEpics(taskManager2);
+        TaskManager inMemoryTaskManager2 = Managers.getDefaultTaskManager();
+        TestSubTuskAndEpics(inMemoryTaskManager2);
     }
 
-    public static void testTask(TaskManager taskManager) {
-        Task task1 = new Task("Сделай работу", Statuses.NEW);
-        Task task2 = new Task("Поешь", Statuses.NEW);
-        System.out.println("Test1");
+    public static void testTask(TaskManager inMemoryTaskManager) {
 
-        taskManager.createTask(task1);
-        taskManager.createTask(task2);
 
-        System.out.println(taskManager);
+        System.out.println(inMemoryTaskManager);
         System.out.println();
 
 
-        taskManager.removeTaskById(0);
+        inMemoryTaskManager.removeTaskById(0);
 
-        System.out.println(taskManager);
+        System.out.println(inMemoryTaskManager);
         System.out.println();
 
 
         Task task3 = new Task(1, "Еще раз поешь", Statuses.NEW);
-        taskManager.updateTask(task3);
+        inMemoryTaskManager.updateTask(task3);
 
-        System.out.println(taskManager);
+        System.out.println(inMemoryTaskManager);
         System.out.println();
 
-        Task task4 = taskManager.getTaskDyId(1);
+        Task task4 = inMemoryTaskManager.getTaskDyId(1);
 
 
-        List<Task> testList = taskManager.getAllTasks();
+        List<Task> testList = inMemoryTaskManager.getAllTasks();
 
         System.out.println(testList);
         System.out.println();
 
 
-        System.out.println(taskManager);
+        System.out.println(inMemoryTaskManager);
         System.out.println();
-        taskManager.removeAllTasks();
-        System.out.println(taskManager);
+        inMemoryTaskManager.removeAllTasks();
+        System.out.println(inMemoryTaskManager);
         System.out.println();
     }
 
-    public static void TestSubTuskAndEpics(TaskManager taskManager) {
+    public static void TestSubTuskAndEpics(TaskManager inMemoryTaskManager) {
         Epic epic1 = new Epic("Отработай", Statuses.NEW, List.of(1,2,3));
         SubTask subTask1 = new SubTask("Приди на работу", Statuses.IN_PROGRESS, 0);
         SubTask subTask2 = new SubTask("Сделай работу", Statuses.NEW, 0);
@@ -60,33 +55,33 @@ public class Main {
 
         System.out.println("Test2");
 
-        taskManager.createEpic(epic1);
-        taskManager.createSubTask(subTask1);
-        taskManager.createSubTask(subTask2);
-        taskManager.createSubTask(subTask3);
+        inMemoryTaskManager.createEpic(epic1);
+        inMemoryTaskManager.createSubTask(subTask1);
+        inMemoryTaskManager.createSubTask(subTask2);
+        inMemoryTaskManager.createSubTask(subTask3);
 
-        System.out.println(taskManager);
+        System.out.println(inMemoryTaskManager);
         System.out.println();
 
-        List<SubTask> subTuskList = taskManager.getAllEpicSubTasks(0);
+        List<SubTask> subTuskList = inMemoryTaskManager.getAllEpicSubTasks(0);
 
         System.out.println(subTuskList);
         System.out.println();
 
-        taskManager.removeAllSubTasks();
+        inMemoryTaskManager.removeAllSubTasks();
 
-        System.out.println(taskManager);
+        System.out.println(inMemoryTaskManager);
         System.out.println();
 
-        taskManager.createSubTask(subTask1);
-        taskManager.createSubTask(subTask2);
-        taskManager.createSubTask(subTask3);
+        inMemoryTaskManager.createSubTask(subTask1);
+        inMemoryTaskManager.createSubTask(subTask2);
+        inMemoryTaskManager.createSubTask(subTask3);
 
-        System.out.println(taskManager);
+        System.out.println(inMemoryTaskManager);
         System.out.println();
 
-        taskManager.removeAllEpics();
-        System.out.println(taskManager);
+        inMemoryTaskManager.removeAllEpics();
+        System.out.println(inMemoryTaskManager);
         System.out.println();
     }
 }
