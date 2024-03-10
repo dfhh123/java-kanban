@@ -22,12 +22,12 @@ public class TaskManagerTest {
 
     @Test
     public void fullInitializedTaskManagerTest() {
-        Task createdTask = new Task(0,"Задача 1", Statuses.NEW);
+        Task createdTask = new Task(0, "Задача 1", Statuses.NEW);
 
         taskManager.createTask(createdTask);
         Task takenTusk = taskManager.getTaskDyId(0);
 
-        int historySize =taskManager.getHistory().size();
+        int historySize = taskManager.getHistory().size();
         Assertions.assertEquals(takenTusk, createdTask);
         Assertions.assertEquals(historySize, 1);
     }
@@ -55,7 +55,7 @@ public class TaskManagerTest {
     }
 
     @Test
-    public void removeTaskById_ShouldDeleteTask(){
+    public void removeTaskById_ShouldDeleteTask() {
         Task createdTask = new Task("Задача 4", Statuses.NEW);
         taskManager.createTask(createdTask);
 
@@ -83,7 +83,7 @@ public class TaskManagerTest {
     @Test
     public void updateTusk_ShouldUpdateTusk() {
         Task createdTask = new Task("Задача 6", Statuses.NEW);
-        Task actualTask = new Task(0,"Задача 7", Statuses.NEW);
+        Task actualTask = new Task(0, "Задача 7", Statuses.NEW);
         Task updatedTusk;
         taskManager.createTask(createdTask);
 
@@ -95,7 +95,7 @@ public class TaskManagerTest {
 
     @Test
     public void taskImmutabilityAfterAdding() {
-        Task createdTask = new Task(1,"Задача 8", Statuses.NEW);
+        Task createdTask = new Task(1, "Задача 8", Statuses.NEW);
         Task actualTask;
         taskManager.createTask(createdTask);
 
@@ -107,8 +107,8 @@ public class TaskManagerTest {
     }
 
     @Test
-    public void IdConflictTest () {
-        Task createdTask1 = new Task(0,"Задача 9", Statuses.NEW);
+    public void IdConflictTest() {
+        Task createdTask1 = new Task(0, "Задача 9", Statuses.NEW);
         Task createdTask2 = new Task("Задача 10", Statuses.NEW);
 
         taskManager.createTask(createdTask1);
@@ -121,7 +121,7 @@ public class TaskManagerTest {
 
     @Test
     public void subTaskList_ShouldReturnAllSubTasks() {
-        Epic epic1 = new Epic("Эпик 1", Statuses.NEW, List.of(1,2,3));
+        Epic epic1 = new Epic("Эпик 1", Statuses.NEW, List.of(1, 2, 3));
         SubTask subTask1 = new SubTask("Сабтаск 1", Statuses.IN_PROGRESS, 0);
         SubTask subTask2 = new SubTask("Сабтаск 2", Statuses.NEW, 0);
         SubTask subTask3 = new SubTask("Сабтаск 3", Statuses.NEW, 0);
@@ -138,7 +138,7 @@ public class TaskManagerTest {
 
     @Test
     public void create_EpicStatusShouldBeInProgress() {
-        Epic epic1 = new Epic("Эпик 2", Statuses.NEW, List.of(1,2,3));
+        Epic epic1 = new Epic("Эпик 2", Statuses.NEW, List.of(1, 2, 3));
         SubTask subTask1 = new SubTask("Сабтаск 4", Statuses.IN_PROGRESS, 0);
         SubTask subTask2 = new SubTask("Сабтаск 5", Statuses.NEW, 0);
         SubTask subTask3 = new SubTask("Сабтаск 6", Statuses.NEW, 0);
@@ -154,7 +154,7 @@ public class TaskManagerTest {
 
     @Test
     public void getHistory_ShouldReturnCorrectHistory() {
-        Task createdTask1 = new Task(0,"Задача 11", Statuses.NEW);
+        Task createdTask1 = new Task(0, "Задача 11", Statuses.NEW);
         Task createdTask2 = new Task("Задача 11", Statuses.NEW);
         taskManager.createTask(createdTask1);
         taskManager.createTask(createdTask2);
@@ -170,7 +170,7 @@ public class TaskManagerTest {
 
     @Test
     public void removeAllSubTusks_EpicShouldHaveStatusNew() {
-        Epic epic1 = new Epic("Эпик 3", Statuses.NEW, List.of(1,2,3));
+        Epic epic1 = new Epic("Эпик 3", Statuses.NEW, List.of(1, 2, 3));
         SubTask subTask1 = new SubTask("Сабтаск 7", Statuses.IN_PROGRESS, 0);
         SubTask subTask2 = new SubTask("Сабтаск 8", Statuses.NEW, 0);
         SubTask subTask3 = new SubTask("Сабтаск 9", Statuses.NEW, 0);
@@ -186,7 +186,7 @@ public class TaskManagerTest {
 
     @Test
     public void getHistory_ShouldReturnCorrectTaskAfterChange() {
-        Task createdTask1 = new Task(0,"Задача 12", Statuses.NEW);
+        Task createdTask1 = new Task(0, "Задача 12", Statuses.NEW);
         taskManager.createTask(createdTask1);
         taskManager.getTaskDyId(0);
 
@@ -198,16 +198,16 @@ public class TaskManagerTest {
 
     @Test
     public void taskEqualsTest() {
-        Task createdTask1 = new Task(1,"Задача13", Statuses.NEW);
-        Task createdTask2 = new Task(1,"Задача14", Statuses.NEW);
+        Task createdTask1 = new Task(1, "Задача13", Statuses.NEW);
+        Task createdTask2 = new Task(1, "Задача14", Statuses.NEW);
 
         Assertions.assertEquals(createdTask1, createdTask2);
     }
 
     @Test
     public void successorsEqualsTest() {
-        Task createdTask1 = new SubTask(1,"Задача15", Statuses.NEW, 3);
-        Task createdTask2 = new SubTask(1,"Задача16", Statuses.NEW, 5);
+        Task createdTask1 = new SubTask(1, "Задача15", Statuses.NEW, 3);
+        Task createdTask2 = new SubTask(1, "Задача16", Statuses.NEW, 5);
 
         Assertions.assertEquals(createdTask1, createdTask2);
     }
@@ -223,7 +223,7 @@ public class TaskManagerTest {
 
     @Test
     public void subTuskCantSetItSelfTest() {
-        SubTask createdTask1 = new SubTask(1,"Задача18", Statuses.NEW, 3);
+        SubTask createdTask1 = new SubTask(1, "Задача18", Statuses.NEW, 3);
 
         assertThrows(IllegalArgumentException.class, () -> {
             createdTask1.setLinkedEpicId(createdTask1.getLinkedEpicId());
@@ -232,8 +232,8 @@ public class TaskManagerTest {
 
     @Test
     public void createTusk_ShouldReturnIllegalArgumentException() {
-        Task createdTask1 = new SubTask(1,"Задача15", Statuses.NEW, 3);
-        Task createdTask2 = new SubTask(1,"Задача16", Statuses.NEW, 5);
+        Task createdTask1 = new SubTask(1, "Задача15", Statuses.NEW, 3);
+        Task createdTask2 = new SubTask(1, "Задача16", Statuses.NEW, 5);
 
         assertThrows(IllegalArgumentException.class, () -> {
             taskManager.createTask(createdTask1);

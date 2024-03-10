@@ -2,7 +2,7 @@ package Models;
 
 import java.util.Objects;
 
-public  class Task implements Cloneable{
+public class Task implements Cloneable {
     private Integer id;
     private String description;
     private Statuses status;
@@ -56,7 +56,7 @@ public  class Task implements Cloneable{
         this.id = id;
     }
 
-    public Integer getId(){
+    public Integer getId() {
         return id;
     }
 

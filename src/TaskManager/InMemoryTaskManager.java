@@ -55,7 +55,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task createTask(Task newTask) {
         if (newTask.getId() == null) {
-            newTask.setId(generateCorrectId ());
+            newTask.setId(generateCorrectId());
             tasks.put(newTask.getId(), newTask);
             return newTask;
         } else {
@@ -96,7 +96,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void removeAllEpics() {
         epics.clear();
-        for (Map.Entry<Integer, SubTask> entry: subTusks.entrySet()) {
+        for (Map.Entry<Integer, SubTask> entry : subTusks.entrySet()) {
             SubTask currentSuTusk = entry.getValue();
             currentSuTusk.setLinkedEpicId(-1);
         }
@@ -147,7 +147,8 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic getEpicDyId(int id) {
         if (epics.containsKey(id)) {
-            historyManager.add(epics.get(id));;
+            historyManager.add(epics.get(id));
+            ;
             return epics.get(id);
         } else {
             throw new NoSuchElementException();
@@ -169,7 +170,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void removeAllSubTasks() {
         subTusks.clear();
-        for (Map.Entry<Integer, Epic> entry: epics.entrySet()) {
+        for (Map.Entry<Integer, Epic> entry : epics.entrySet()) {
             Epic currentEpic = entry.getValue();
             currentEpic.setSubTusksIdes(List.of());
             updateEpicStatus(currentEpic.getId());
@@ -271,7 +272,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    private int generateCorrectId () {
+    private int generateCorrectId() {
         int correctId = idGenerator.createId();
 
         while (epics.containsKey(correctId) || tasks.containsKey(correctId) || subTusks.containsKey(correctId)) {

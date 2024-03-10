@@ -14,7 +14,7 @@ public class Managers {
         return new InMemoryHistoryManager();
     }
 
-    public static IdGenerator getDefaultIdGenerator(){
+    public static IdGenerator getDefaultIdGenerator() {
         return new ConsistentIdGenerator();
     }
 }
