@@ -1,9 +1,9 @@
-package TaskManager;
+package taskmanager;
 
-import Utils.HistoryManager.HistoryManager;
-import Utils.HistoryManager.InMemoryHistoryManager;
-import Utils.IdGenerator.ConsistentIdGenerator;
-import Utils.IdGenerator.IdGenerator;
+import additionalmodules.historymanager.HistoryManager;
+import additionalmodules.historymanager.InMemoryHistoryManager;
+import additionalmodules.idgenerator.ConsistentIdGenerator;
+import additionalmodules.idgenerator.IdGenerator;
 
 public class Managers {
     public static TaskManager getDefaultTaskManager() {

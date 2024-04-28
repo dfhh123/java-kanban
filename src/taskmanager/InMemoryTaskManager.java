@@ -1,8 +1,8 @@
-package TaskManager;
+package taskmanager;
 
-import Models.*;
-import Utils.HistoryManager.HistoryManager;
-import Utils.IdGenerator.IdGenerator;
+import models.*;
+import additionalmodules.historymanager.HistoryManager;
+import additionalmodules.idgenerator.IdGenerator;
 
 import java.util.*;
 
@@ -22,11 +22,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public String toString() {
-        return "TaskManager{" +
+        return "taskmanager{" +
                 "tasks=" + tasks +
                 ", epics=" + epics +
                 ", subTusks=" + subTusks +
-                ", idGenerator=" + idGenerator +
+                ", idgenerator=" + idGenerator +
                 '}';
     }
 
@@ -243,7 +243,7 @@ public class InMemoryTaskManager implements TaskManager {
 
         int newCount = 0;
         int doneCount = 0;
-        int InProgressCount = 0;
+        int inProgressCount = 0;
 
         if (currentEpic.getSubTusksIdes().isEmpty()) {
             currentEpic.setStatus(Statuses.NEW);
@@ -258,7 +258,7 @@ public class InMemoryTaskManager implements TaskManager {
 
                 switch (currentSubTask.getStatus()) {
                     case Statuses.NEW -> newCount++;
-                    case Statuses.IN_PROGRESS -> InProgressCount++;
+                    case Statuses.IN_PROGRESS -> inProgressCount++;
                     case Statuses.DONE -> doneCount++;
                 }
 

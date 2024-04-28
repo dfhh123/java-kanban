@@ -1,4 +1,4 @@
-package Utils.IdGenerator;
+package additionalmodules.idgenerator;
 
 public class ConsistentIdGenerator implements IdGenerator {
     private int countOfTasks = 0;

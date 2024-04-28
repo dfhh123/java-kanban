@@ -1,5 +1,5 @@
-import Models.*;
-import TaskManager.*;
+import models.*;
+import taskmanager.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
