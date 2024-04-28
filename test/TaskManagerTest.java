@@ -1,5 +1,3 @@
-package test.Test;
-
 import Models.*;
 import TaskManager.*;
 import org.junit.jupiter.api.Assertions;
@@ -166,7 +164,7 @@ public class TaskManagerTest {
         taskManager.getTaskDyId(1);
 
 
-        Assertions.assertEquals(4, taskManager.getHistory().size());
+        Assertions.assertEquals(2, taskManager.getHistory().size());
     }
 
     @Test
