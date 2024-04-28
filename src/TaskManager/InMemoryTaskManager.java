@@ -251,6 +251,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
 
         List<Integer> idList = currentEpic.getSubTusksIdes();
+
         for (Integer currentId : idList) {
             if (subTusks.containsKey(currentId)) {
                 SubTask currentSubTask = subTusks.get(currentId);
