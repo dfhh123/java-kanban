@@ -2,7 +2,6 @@ package TaskManager;
 
 import Models.*;
 import Utils.HistoryManager.HistoryManager;
-import Utils.IdGenerator.ConsistentIdGenerator;
 import Utils.IdGenerator.IdGenerator;
 
 import java.util.*;
@@ -148,7 +147,6 @@ public class InMemoryTaskManager implements TaskManager {
     public Epic getEpicDyId(int id) {
         if (epics.containsKey(id)) {
             historyManager.add(epics.get(id));
-            ;
             return epics.get(id);
         } else {
             throw new NoSuchElementException();
