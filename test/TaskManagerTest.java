@@ -1,9 +1,8 @@
-import Models.*;
-import TaskManager.*;
+import models.*;
+import taskmanager.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -155,7 +154,7 @@ public class TaskManagerTest {
     @Test
     public void getHistory_ShouldReturnCorrectHistory() {
         Task createdTask1 = new Task(0, "Задача 11", Statuses.NEW);
-        Task createdTask2 = new Task("Задача 11", Statuses.NEW);
+        Task createdTask2 = new Task("Задача 12", Statuses.NEW);
         taskManager.createTask(createdTask1);
         taskManager.createTask(createdTask2);
 
@@ -165,7 +164,7 @@ public class TaskManagerTest {
         taskManager.getTaskDyId(1);
 
 
-        Assertions.assertEquals(4, taskManager.getHistory().size());
+        Assertions.assertEquals(2, taskManager.getHistory().size());
     }
 
     @Test
@@ -186,35 +185,35 @@ public class TaskManagerTest {
 
     @Test
     public void getHistory_ShouldReturnCorrectTaskAfterChange() {
-        Task createdTask1 = new Task(0, "Задача 12", Statuses.NEW);
+        Task createdTask1 = new Task(0, "Задача 13", Statuses.NEW);
         taskManager.createTask(createdTask1);
         taskManager.getTaskDyId(0);
 
         createdTask1.setDescription("Подставной описание");
 
-        Assertions.assertEquals("Задача 12", taskManager.getHistory().get(0).getDescription());
+        Assertions.assertEquals("Задача 13", taskManager.getHistory().get(0).getDescription());
     }
 
 
     @Test
-    public void taskEqualsTest() {
-        Task createdTask1 = new Task(1, "Задача13", Statuses.NEW);
-        Task createdTask2 = new Task(1, "Задача14", Statuses.NEW);
+    public void taskEqualsTest_ShouldReturnTrue() {
+        Task createdTask1 = new Task(1, "Задача14", Statuses.NEW);
+        Task createdTask2 = new Task(1, "Задача15", Statuses.NEW);
 
         Assertions.assertEquals(createdTask1, createdTask2);
     }
 
     @Test
-    public void successorsEqualsTest() {
-        Task createdTask1 = new SubTask(1, "Задача15", Statuses.NEW, 3);
-        Task createdTask2 = new SubTask(1, "Задача16", Statuses.NEW, 5);
+    public void successorsEqualsTest_ShouldReturnTrue() {
+        Task createdTask1 = new SubTask(1, "Сабтаск 10", Statuses.NEW, 3);
+        Task createdTask2 = new SubTask(1, "Сабтаск 11", Statuses.NEW, 5);
 
         Assertions.assertEquals(createdTask1, createdTask2);
     }
 
     @Test
-    public void epicCantSetItselfInSubTusksListTest() {
-        Epic cratedEpic = new Epic(1, "Задача17", Statuses.NEW);
+    public void epicCantSetItselfInSubTusksListTest_ShouldReturnFalse() {
+        Epic cratedEpic = new Epic(1, "Эпик 3", Statuses.NEW);
 
         assertThrows(IllegalArgumentException.class, () -> {
             cratedEpic.setSubTusksIdes(List.of(1, 2, 3, 4));
@@ -222,8 +221,8 @@ public class TaskManagerTest {
     }
 
     @Test
-    public void subTuskCantSetItSelfTest() {
-        SubTask createdTask1 = new SubTask(1, "Задача18", Statuses.NEW, 3);
+    public void subTuskCantSetItSelfTest_ShouldReturnFalse() {
+        SubTask createdTask1 = new SubTask(1, "Сабтаск 12", Statuses.NEW, 3);
 
         assertThrows(IllegalArgumentException.class, () -> {
             createdTask1.setLinkedEpicId(createdTask1.getLinkedEpicId());
@@ -232,12 +231,25 @@ public class TaskManagerTest {
 
     @Test
     public void createTusk_ShouldReturnIllegalArgumentException() {
-        Task createdTask1 = new SubTask(1, "Задача15", Statuses.NEW, 3);
-        Task createdTask2 = new SubTask(1, "Задача16", Statuses.NEW, 5);
+        Task createdTask1 = new Task(1, "Задача 16", Statuses.NEW);
+        Task createdTask2 = new Task(1, "Задача 17", Statuses.NEW);
 
         assertThrows(IllegalArgumentException.class, () -> {
             taskManager.createTask(createdTask1);
             taskManager.createTask(createdTask2);
         });
+    }
+
+    @Test
+    public void changeTaskCondition_ShouldReturnTrue() {
+        Task createdTask1 = new Task(1, "Задача 18", Statuses.NEW);
+        taskManager.createTask(createdTask1);
+        taskManager.getTaskDyId(1);
+        taskManager.getHistory();
+
+        createdTask1.setId(53);
+
+        Task collectedTask = taskManager.getTaskDyId(1);
+        Assertions.assertEquals(createdTask1, collectedTask);
     }
 }

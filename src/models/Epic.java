@@ -1,4 +1,4 @@
-package Models;
+package models;
 
 import java.util.*;
 
@@ -25,8 +25,8 @@ public class Epic extends Task {
         this.subTusksIds = subTusksIdes;
     }
 
-    public Epic(String description, Statuses Statuses) {
-        super(description, Statuses);
+    public Epic(String description, Statuses statuses) {
+        super(description, statuses);
     }
 
     @Override

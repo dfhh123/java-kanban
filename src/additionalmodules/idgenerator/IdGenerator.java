@@ -1,4 +1,4 @@
-package Utils.IdGenerator;
+package additionalmodules.idgenerator;
 
 public interface IdGenerator {
     int createId();

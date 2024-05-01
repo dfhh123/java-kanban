@@ -1,6 +1,4 @@
-package Models;
-
-import org.junit.jupiter.api.Test;
+package models;
 
 public class SubTask extends Task {
     private int linkedEpicId;
@@ -21,8 +19,8 @@ public class SubTask extends Task {
         return linkedEpicId;
     }
 
-    public SubTask(String description, Statuses Statuses, int linkedEpicId) {
-        super(description, Statuses);
+    public SubTask(String description, Statuses statuses, int linkedEpicId) {
+        super(description, statuses);
         this.linkedEpicId = linkedEpicId;
     }
 

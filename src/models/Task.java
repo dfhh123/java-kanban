@@ -1,4 +1,4 @@
-package Models;
+package models;
 
 import java.util.Objects;
 
@@ -18,8 +18,8 @@ public class Task implements Cloneable {
         this.status = status;
     }
 
-    public void setStatus(Statuses Statuses) {
-        this.status = Statuses;
+    public void setStatus(Statuses statuses) {
+        this.status = statuses;
     }
 
     public String getDescription() {
@@ -32,7 +32,7 @@ public class Task implements Cloneable {
 
     @Override
     public String toString() {
-        return "Models.Task{" +
+        return "models.Task{" +
                 "description='" + description + '\'' +
                 ", tackCondition=" + status +
                 ", id=" + id +
