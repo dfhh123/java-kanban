@@ -19,9 +19,9 @@ import java.util.List;
 public class FileBackedTaskManagerTest {
     private FileBackedTaskManager testManager;
     private static final Path FILE_BACKED_TASK_MANAGER_TEST_PATH = Path
-            .of("src/test/resources/file-backed-task-manager-save.csv");
+            .of("test/resources/file-backed-task-manager-save.csv");
     private static final Path FILE_BACKED_HISTORY_MANAGER_TEST_PATH = Path
-            .of("src/test/resources/file-backed-task-manager-save.csv");
+            .of("test/resources/file-backed-task-manager-save.csv");
 
     @Nested
     class StringLineToModelConvertorTests {
