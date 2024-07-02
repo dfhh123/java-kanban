@@ -113,7 +113,7 @@ public class FileBackedTaskManagerTest {
                 System.out.println(e.getMessage());
             }
 
-            List <Task> tasks = taskFromCsvLoader.loadDataFromFile().toList();
+            List<Task> tasks = taskFromCsvLoader.loadDataFromFile().toList();
 
             Assertions.assertEquals(1, tasks.size());
             Assertions.assertEquals("Задача 1", tasks.getFirst().getDescription());
