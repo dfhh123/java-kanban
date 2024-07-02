@@ -26,6 +26,7 @@ public class FileBackedTaskManagerTest {
     @Nested
     class StringLineToModelConvertorTests {
         StringLineToModelConvertor stringLineToModelConvertor;
+
         @BeforeEach
         public void setUp() {
             stringLineToModelConvertor = new StringLineToModelConvertor();
@@ -64,10 +65,12 @@ public class FileBackedTaskManagerTest {
     @Nested
     class ModelToCsvConvertorTests {
         ModelToStringConvertor modelToStringLineConvertor;
+
         @BeforeEach
         public void setUp() {
             modelToStringLineConvertor = new ModelToStringConvertor();
         }
+
         @Test
         public void shouldConvertTaskToString() {
             Task task = new Task(0, "Задача 1", Statuses.NEW);
@@ -97,7 +100,7 @@ public class FileBackedTaskManagerTest {
     }
 
     @Nested
-    class loaderTest {
+    class LoaderTest {
 
         @Test
         public void shouldLoadFromFileWhenCreated() {
@@ -118,7 +121,7 @@ public class FileBackedTaskManagerTest {
     }
 
     @Nested
-    class saveTest {
+    class SaveTest {
         @Test
         public void shouldSaveToFileWhenCreated() {
             TaskToCsvSaver taskToCsvSaver = new TaskToCsvSaver(FILE_BACKED_TASK_MANAGER_TEST_PATH);
@@ -126,8 +129,10 @@ public class FileBackedTaskManagerTest {
 
             try {
                 taskToCsvSaver.saveAllData(List.of(new Task(0, "Задача 1", Statuses.NEW)));
-            } catch (IOException _) {}
-            List <Task> tasks = taskFromCsvLoader.loadDataFromFile().toList();
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+            List<Task> tasks = taskFromCsvLoader.loadDataFromFile().toList();
 
             Assertions.assertEquals(1, tasks.size());
             Assertions.assertEquals("Задача 1", tasks.getFirst().getDescription());
@@ -211,6 +216,8 @@ public class FileBackedTaskManagerTest {
         try {
             Files.delete(FILE_BACKED_TASK_MANAGER_TEST_PATH);
             Files.delete(FILE_BACKED_HISTORY_MANAGER_TEST_PATH);
-        } catch (IOException _) {}
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
