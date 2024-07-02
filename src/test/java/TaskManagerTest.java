@@ -16,9 +16,6 @@ public class TaskManagerTest {
         taskManager = Managers.getDefaultTaskManager();
     }
 
-
-    // Сделал такое название методов по рекомендации наставника(повышает читаемость)
-
     @Test
     public void fullInitializedTaskManagerTest() {
         Task createdTask = new Task(0, "Задача 1", Statuses.NEW);
