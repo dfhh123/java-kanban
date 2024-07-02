@@ -3,11 +3,20 @@ package models;
 public class SubTask extends Task {
     private int linkedEpicId;
 
+    public SubTask() {
+
+    }
+
     public void setLinkedEpicId(int linkedEpicId) {
         if (this.linkedEpicId == linkedEpicId) {
             throw new IllegalArgumentException();
         }
         this.linkedEpicId = linkedEpicId;
+    }
+
+    @Override
+    public String toString() {
+        return getId() + "," + getDescription() + "," + getStatus() + "," + linkedEpicId + "\n";
     }
 
     public SubTask(int id, String description, Statuses status, int linkedEpicId) {

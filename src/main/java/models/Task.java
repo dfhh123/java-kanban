@@ -18,6 +18,9 @@ public class Task implements Cloneable {
         this.status = status;
     }
 
+    public Task() {
+    }
+
     public void setStatus(Statuses statuses) {
         this.status = statuses;
     }
@@ -32,11 +35,7 @@ public class Task implements Cloneable {
 
     @Override
     public String toString() {
-        return "models.Task{" +
-                "description='" + description + '\'' +
-                ", tackCondition=" + status +
-                ", id=" + id +
-                '}';
+        return id + "," + status + "," + description;
     }
 
     @Override
