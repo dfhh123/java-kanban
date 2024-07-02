@@ -110,7 +110,7 @@ public class FileBackedTaskManagerTest {
                 writer.write("id,type,status,description,epic,subtaskIds\n");
                 writer.write("0,TASK,NEW,Задача 1,\n");
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
 
             List <Task> tasks = taskFromCsvLoader.loadDataFromFile().toList();
@@ -212,7 +212,7 @@ public class FileBackedTaskManagerTest {
     }
 
     @AfterAll
-    public static void clearAllDataFile() throws IOException {
+    public static void clearAllDataFile() {
         try {
             Files.delete(FILE_BACKED_TASK_MANAGER_TEST_PATH);
             Files.delete(FILE_BACKED_HISTORY_MANAGER_TEST_PATH);
