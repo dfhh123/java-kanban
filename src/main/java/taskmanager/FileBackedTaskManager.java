@@ -12,13 +12,23 @@ import java.util.InputMismatchException;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
-    Path defoultPath = Path.of("src/main/resources/file-backed-task-manager-save.csv");
+    private final Path defoultPath = Path.of("src/main/resources");
+    private final String SaveFileName = "file-backed-task-manager-save.csv";
 
-    private TaskToCsvSaver saver = new TaskToCsvSaver(defoultPath);
-    private TaskFromCsvLoader loader = new TaskFromCsvLoader(defoultPath);
+    private TaskToCsvSaver saver;
+    private TaskFromCsvLoader loader;
 
     public FileBackedTaskManager(IdGenerator idGenerator, HistoryManager historyManager) {
         super(idGenerator, historyManager);
+        loader = new TaskFromCsvLoader(Path.of(defoultPath + "/" + SaveFileName));
+        saver = new TaskToCsvSaver(Path.of(defoultPath + "/" + SaveFileName));
+        uploadDuringCreation();
+    }
+
+    public FileBackedTaskManager(IdGenerator idGenerator, HistoryManager historyManager, Path path) {
+        super(idGenerator, historyManager);
+        loader = new TaskFromCsvLoader(path);
+        saver = new TaskToCsvSaver(path);
         uploadDuringCreation();
     }
 

@@ -12,22 +12,34 @@ import java.util.List;
 
 public class FileBackedHistoryManager implements SavableHistoryManager {
     HistoryManager history = new InMemoryHistoryManager();
-    private final Path defoultPath = Path.of("src/main/resources/file-backed-history-manager-save.csv");
-    private Path saveFileDirectory = defoultPath;
+    private final Path DEFOULT_PATH = Path.of("src/main/resources/file-backed-history-manager-save.csv");
+    private Path saveFileDirectory;
 
+    private TaskToCsvSaver saver;
+    private TaskFromCsvLoader loader;
+
+    public FileBackedHistoryManager() {
+        setSaveFileDirectory(DEFOULT_PATH);
+        saver = new TaskToCsvSaver(saveFileDirectory);
+        loader = new TaskFromCsvLoader(saveFileDirectory);
+        loadDataFromCsv();
+    }
+
+    public FileBackedHistoryManager(Path path) {
+        setSaveFileDirectory(path);
+        saver = new TaskToCsvSaver(saveFileDirectory);
+        loader = new TaskFromCsvLoader(saveFileDirectory);
+        loadDataFromCsv();
+    }
+
+    @Override
     public Path getSaveFileDirectory() {
         return saveFileDirectory;
     }
 
-    public void setSaveFileDirectory(Path saveFileDirectory) {
-        this.saveFileDirectory = saveFileDirectory;
-    }
-
-    private TaskToCsvSaver saver = new TaskToCsvSaver(defoultPath);
-    private TaskFromCsvLoader loader = new TaskFromCsvLoader(defoultPath);
-
-    public FileBackedHistoryManager() {
-        loadDataFromCsv();
+    @Override
+    public void setSaveFileDirectory(Path userSaveFileDirectory) {
+        saveFileDirectory = userSaveFileDirectory;
     }
 
     @Override
@@ -64,13 +76,18 @@ public class FileBackedHistoryManager implements SavableHistoryManager {
     @Override
     public void loadDataFromCsv() {
         CustomHistoryManagerCollection newHistory = new CustomHistoryManagerCollection();
-        if (Files.exists(defoultPath)) {
+
+        ifFileExistsLoadDataToNewHistory(newHistory);
+        history.setHistory(newHistory);
+    }
+
+    private void ifFileExistsLoadDataToNewHistory(CustomHistoryManagerCollection newHistory) {
+        if (Files.exists(saveFileDirectory)) {
             try {
                 loader.loadDataFromFile().forEach(newHistory::add);
             } catch (RuntimeException e) {
                 System.out.println(e.getMessage());
             }
         }
-        history.setHistory(newHistory);
     }
 }
