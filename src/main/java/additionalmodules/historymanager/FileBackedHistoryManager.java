@@ -12,14 +12,14 @@ import java.util.List;
 
 public class FileBackedHistoryManager implements SavableHistoryManager {
     HistoryManager history = new InMemoryHistoryManager();
-    private final Path DEFOULT_PATH = Path.of("src/main/resources/file-backed-history-manager-save.csv");
+    private final Path defoultPath = Path.of("src/main/resources/file-backed-history-manager-save.csv");
     private Path saveFileDirectory;
 
     private TaskToCsvSaver saver;
     private TaskFromCsvLoader loader;
 
     public FileBackedHistoryManager() {
-        setSaveFileDirectory(DEFOULT_PATH);
+        setSaveFileDirectory(defoultPath);
         saver = new TaskToCsvSaver(saveFileDirectory);
         loader = new TaskFromCsvLoader(saveFileDirectory);
         loadDataFromCsv();
