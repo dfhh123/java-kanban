@@ -3,7 +3,7 @@ package additionalmodules.savemoduls.convertors;
 import models.*;
 
 public class ModelToStringConvertor {
-    ModelDataValidator validator = new ModelDataValidator();
+    private final ModelDataValidator validator = new ModelDataValidator();
 
     public <T extends Task> String convaertModelToString(T task) {
         if (!validator.validateTask(task)) {
