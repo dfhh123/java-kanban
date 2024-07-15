@@ -11,7 +11,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class FileBackedHistoryManager implements SavableHistoryManager {
-    HistoryManager history = new InMemoryHistoryManager();
+    private HistoryManager history = new InMemoryHistoryManager();
     private final Path defoultPath = Path.of("src/main/resources/file-backed-history-manager-save.csv");
     private Path saveFileDirectory;
 

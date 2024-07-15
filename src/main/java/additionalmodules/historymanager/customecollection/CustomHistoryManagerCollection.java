@@ -4,11 +4,12 @@ import models.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class CustomHistoryManagerCollection {
     private Node head;
     private Node tail;
-    private final HashMap<Integer, Node> map;
+    private final Map<Integer, Node> map;
 
     public CustomHistoryManagerCollection() {
         map = new HashMap<>();
@@ -36,43 +37,32 @@ public class CustomHistoryManagerCollection {
         ArrayList<Task> history = new ArrayList<>();
         Node current = head;
         while (current != null) {
-            history.add(current.task);
-            current = current.next;
+            history.add(current.getTask());
+            current = current.getNext();
         }
-        return new ArrayList<>(history);
+        return history;
     }
-
 
     private void linkLast(Node node) {
         if (head == null) {
             head = node;
         } else {
-            tail.next = node;
-            node.prev = tail;
+            tail.setNext(node);
+            node.setPrev(tail);
         }
         tail = node;
     }
 
     private void removeNode(Node node) {
-        if (node.prev != null) {
-            node.prev.next = node.next;
+        if (node.getPrev() != null) {
+            node.getPrev().setNext(node.getNext());
         } else {
-            head = node.next;
+            head = node.getNext();
         }
-        if (node.next != null) {
-            node.next.prev = node.prev;
+        if (node.getNext() != null) {
+            node.getNext().setPrev(node.getPrev());
         } else {
-            tail = node.prev;
-        }
-    }
-
-    static class Node {
-        Task task;
-        Node next;
-        Node prev;
-
-        public Node(Task task) {
-            this.task = task.clone();
+            tail = node.getPrev();
         }
     }
 }
