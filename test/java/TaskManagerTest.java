@@ -16,9 +16,6 @@ public class TaskManagerTest {
         taskManager = Managers.getDefaultTaskManager();
     }
 
-
-    // Сделал такое название методов по рекомендации наставника(повышает читаемость)
-
     @Test
     public void fullInitializedTaskManagerTest() {
         Task createdTask = new Task(0, "Задача 1", Statuses.NEW);
@@ -106,7 +103,7 @@ public class TaskManagerTest {
     }
 
     @Test
-    public void IdConflictTest() {
+    public void idConflictTest() {
         Task createdTask1 = new Task(0, "Задача 9", Statuses.NEW);
         Task createdTask2 = new Task("Задача 10", Statuses.NEW);
 

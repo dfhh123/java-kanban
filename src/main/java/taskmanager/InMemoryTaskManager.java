@@ -8,12 +8,12 @@ import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    private Map<Integer, Task> tasks = new HashMap<>();
-    private Map<Integer, Epic> epics = new HashMap<>();
-    private Map<Integer, SubTask> subTusks = new HashMap<>();
+    protected Map<Integer, Task> tasks = new HashMap<>();
+    protected Map<Integer, Epic> epics = new HashMap<>();
+    protected Map<Integer, SubTask> subTusks = new HashMap<>();
 
-    private IdGenerator idGenerator;
-    private HistoryManager historyManager;
+    protected IdGenerator idGenerator;
+    protected HistoryManager historyManager;
 
     public InMemoryTaskManager(IdGenerator idGenerator, HistoryManager historyManager) {
         this.idGenerator = idGenerator;
@@ -21,21 +21,10 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public String toString() {
-        return "taskmanager{" +
-                "tasks=" + tasks +
-                ", epics=" + epics +
-                ", subTusks=" + subTusks +
-                ", idgenerator=" + idGenerator +
-                '}';
-    }
-
-    @Override
     public List<Task> getHistory() {
         return historyManager.getHistory();
     }
 
-    //методы для тасков
     @Override
     public Task getTaskDyId(int id) {
         if (tasks.containsKey(id)) {
@@ -90,8 +79,6 @@ public class InMemoryTaskManager implements TaskManager {
         return new ArrayList<>(tasks.values());
     }
 
-
-    //методы для эпиков
     @Override
     public void removeAllEpics() {
         epics.clear();
@@ -112,7 +99,7 @@ public class InMemoryTaskManager implements TaskManager {
                 throw new IllegalArgumentException();
             }
             if (!epics.containsKey(newEpic.getId())) {
-                tasks.put(newEpic.getId(), newEpic);
+                epics.put(newEpic.getId(), newEpic);
                 return newEpic;
             } else {
                 throw new IllegalArgumentException();
@@ -153,8 +140,6 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-
-    //методы для сабтасков
     @Override
     public SubTask getSubTuskById(int id) {
         if (subTusks.containsKey(id)) {
@@ -188,6 +173,7 @@ public class InMemoryTaskManager implements TaskManager {
             }
             if (!subTusks.containsKey(newSubTask.getId())) {
                 subTusks.put(newSubTask.getId(), newSubTask);
+                updateEpicStatus(newSubTask.getLinkedEpicId());
                 return newSubTask;
             } else {
                 throw new IllegalArgumentException();
@@ -257,9 +243,9 @@ public class InMemoryTaskManager implements TaskManager {
                 SubTask currentSubTask = subTusks.get(currentId);
 
                 switch (currentSubTask.getStatus()) {
-                    case Statuses.NEW -> newCount++;
-                    case Statuses.IN_PROGRESS -> inProgressCount++;
-                    case Statuses.DONE -> doneCount++;
+                    case NEW -> newCount++;
+                    case IN_PROGRESS -> inProgressCount++;
+                    case DONE -> doneCount++;
                 }
 
                 if (doneCount == idList.size()) {

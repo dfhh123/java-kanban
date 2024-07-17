@@ -10,6 +10,19 @@ public class Epic extends Task {
         this.subTusksIds = subTusksIds;
     }
 
+    public Epic() {
+    }
+
+    public Epic(int i, String s, Statuses statuses, List<Integer> es) {
+        super(i, s, statuses);
+        this.subTusksIds =  new ArrayList<>(es);
+    }
+
+    @Override
+    public String toString() {
+        return getId() + "," + getStatus() + "," + getDescription() + "," + getSubTusksIdes() + "\n";
+    }
+
     public Epic(int id, String description, Statuses status) {
         super(id, description, status);
     }
